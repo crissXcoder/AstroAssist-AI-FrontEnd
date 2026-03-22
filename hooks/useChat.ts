@@ -67,7 +67,11 @@ export function useChat() {
         }),
       });
 
-      if (!response.ok) throw new Error('Error en el servidor');
+      // Si el servidor falla, tratamos de extraer el error preciso
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.details || errorData.error || 'Error desconocido del servidor (500)');
+      }
 
       const data = await response.json();
       
@@ -79,15 +83,17 @@ export function useChat() {
       };
 
       setMessages(prev => [...prev, assistantMessage]);
-    } catch (err) {
-      setError('Hubo un problema al conectar con AstroAssist. Intenta de nuevo.');
+    } catch (err: any) {
+      const errorMessage = err.message || 'Error de conexión';
+      setError(errorMessage);
+      console.error("🔴 AI Chat Error:", err);
+      
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         role: 'assistant',
-        content: 'Lo siento, hubo un fallo en las comunicaciones cuánticas. Intenta enviar tu mensaje de nuevo.',
+        content: `Lo siento, ocurrió un error crítico:\n\`${errorMessage}\`\n\nPor favor revisa la consola o reinicia el servidor.`,
         createdAt: new Date()
       }]);
-      console.error(err);
     } finally {
       setIsLoading(false);
     }
@@ -98,7 +104,7 @@ export function useChat() {
     setMessages([{
       id: Date.now().toString(),
       role: 'assistant',
-      content: 'Historial borrado. ¿Qué constelación buscaremos ahora?',
+      content: 'Memoria restablecida. Sistema listo para una nueva conversación estelar. 🚀',
       createdAt: new Date(),
     }]);
   };
