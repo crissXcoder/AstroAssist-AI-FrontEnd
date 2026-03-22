@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 const galleryData = [
   {
     id: "img1",
-    src: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=1200&auto=format&fit=crop",
+    src: "https://imgs.search.brave.com/jfMc9FfYARezUYWhrpeH-wwM58N_wnUUlscD6MvNsvo/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9lc3Ry/ZWxsYXN5Z2FsYXhp/YXMuY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzAxL000/MjI1MkJNNDNORUJV/TE9TQU9SSU9OWU1B/UklBTkJOT1JJT04y/MFg2QTI1TTBXMFNX/SDk1QVBPMjUyQklN/WDI5NDI1MkJVVklS/MjUyQkNDLmpwZw",
     title: "Nebulosa de Orión (M42)",
     photographer: "Comunidad AstroAssist",
     equipment: "Sky-Watcher EQ6-R Pro + Asi533MC",
@@ -18,7 +18,7 @@ const galleryData = [
   },
   {
     id: "img2",
-    src: "https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&w=800&auto=format&fit=crop",
+    src: "https://imgs.search.brave.com/AmZz5nuvPWvxQN1TVzfk3WitT_u-3x-t8iqoI2BJAHs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zZXJ2/aWNlcy5tZXRlb3Jl/ZC5jb20vaW1nL2Fy/dGljbGUvY3VtdWxv/LWRlLWxhcy1wbGV5/YWRlcy1jb21vLWxv/Y2FsaXphcmxvLWVu/LWVsLWNpZWxvLW5v/Y3R1cm5vLTE3NjEy/NTQxMzE5MDJfMTAy/NC5qcGVn",
     title: "Cúmulo de las Pléyades",
     photographer: "Dr. Elena M.",
     equipment: "Celestron NexStar 130SLT",
@@ -27,7 +27,7 @@ const galleryData = [
   },
   {
     id: "img3",
-    src: "https://images.unsplash.com/photo-1536697246787-1fdd68ba7a54?q=80&w=800&auto=format&fit=crop",
+    src: "https://imgs.search.brave.com/O2z-N2hbDjAMd_uvLo91tWTZ7ImmrPE7vDeNlJ6QuZk/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZW5lcy5lbHBhaXMu/Y29tL3Jlc2l6ZXIv/djIvT040TFdHRkZF/QVlNM1RCNFlOWDNF/UFFBSEEuanBnP2F1/dGg9NDg2OTNlY2Uw/ZDZkYTk4MzdiMjYx/ZGE1MDFlY2ZhZTk4/YTg2NGM3Njg2ZTRi/OWVmMDg0ZDhlNGU5/MWVjOGViNiZ3aWR0/aD00MTQ",
     title: "Galaxia de Andrómeda",
     photographer: "Astrofoto PRO",
     equipment: "Refractor 80mm ED",
@@ -45,7 +45,7 @@ const galleryData = [
   },
   {
     id: "img5",
-    src: "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=800&auto=format&fit=crop",
+    src: "https://imgs.search.brave.com/MuyPvGq5JldQFWmwF7ov5aamRZ3-3e-d99ixGFEqV4M/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG4u/ZXNvLm9yZy9pbWFn/ZXMvdGh1bWI3MDB4/L2VzbzE5MjBhLmpw/Zw",
     title: "Vía Láctea Central",
     photographer: "Cazadores de Estrellas",
     equipment: "Sony A7SIII + Lente 14mm",
@@ -54,7 +54,7 @@ const galleryData = [
   },
   {
     id: "img6",
-    src: "https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=800&auto=format&fit=crop",
+    src: "https://imgs.search.brave.com/LdRuaplO4bbceaK0JcJntjm4_TCgAin1njzGycoaEtw/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9wbmcu/cG5ndHJlZS5jb20v/cG5nLXZlY3Rvci8y/MDI0MDkxMy9vdXJt/aWQvcG5ndHJlZS1s/dW5hci1zdXJmYWNl/LXBuZy1pbWFnZV8x/MzU1ODcyMi5wbmc",
     title: "Superficie Lunar",
     photographer: "Instituto Astronómico",
     equipment: "Montura CEM60",
@@ -63,7 +63,7 @@ const galleryData = [
   },
   {
     id: "img7",
-    src: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=800&auto=format&fit=crop",
+    src: "https://imgs.search.brave.com/WgJsTnKG48uIe9ejdLN7i999_-e03W5k6Y5sjjy53Cg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG4u/Y3JlYXRlLnZpc3Rh/LmNvbS9hcGkvbWVk/aWEvc21hbGwvNzE0/NzA5OTg0L3N0b2Nr/LXBob3RvLXBhcnRp/YWwtc29sYXItZWNs/aXBzZS1maXJzdC1z/ZWNvbmQtY29udGFj/dHMtc3VuLXNlZW4t/c29sYXItZmlsdGVy",
     title: "Eclipse Solar Parcial",
     photographer: "M. Rodríguez",
     equipment: "Filtro Solar Baader",

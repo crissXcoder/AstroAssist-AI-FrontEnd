@@ -11,7 +11,7 @@ const products = [
     description: "Telescopio Newtoniano Computarizado ideal para iniciarse en la observación de cielo profundo. Alineación autoguiada en minutos.",
     price: "$649.00",
     tags: ["Principiante", "Automático"],
-    image: "https://images.unsplash.com/photo-1518349619113-03114f06ac3a?q=80&w=600&auto=format&fit=crop"
+    image: "https://imgs.search.brave.com/C6P88nkDHy7hDSlqPytuMrSZUUerV6Kqb50A6oioP3o/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/YXN0cm9ub215Zm9y/YmVnaW5uZXJzLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/MC8wMS9DZWxlc3Ry/b24tTmV4U3Rhci0x/MzBTTFQuanBn"
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const products = [
     description: "Montura Ecuatorial Alemana de alta precisión, la elección definitiva para astrofotografía premium tolerando cargas ultra pesadas.",
     price: "$2,025.00",
     tags: ["Avanzado", "Heavy Duty", "Precisa"],
-    image: "https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=80&w=600&auto=format&fit=crop"
+    image: "https://imgs.search.brave.com/ZSohKTGoEpCEjDgpIidX_RAikTxQpwHIBbWMl0Va6Js/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9mb3Rv/YXN0cm9nb256YWxl/ei5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMjUvMDUvU1cw/Mzk2LTF4MTIwMC0x/LmpwZw"
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ const products = [
     description: "Cámara Astronómica en color refrigerada, perfecta para reducir el ruido térmico en largas exposiciones bajo altas temperaturas.",
     price: "$799.00",
     tags: ["Astrofotografía", "Refrigerada"],
-    image: "https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?q=80&w=600&auto=format&fit=crop"
+    image: "https://imgs.search.brave.com/ixCS3wCfNIzK9tZJjrpUjetlHxetaaZBwTwLTjV9dJ4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90ZWxl/c2NvcGVzLm5ldC9t/ZWRpYS9jYXRhbG9n/L3Byb2R1Y3QvY2Fj/aGUvY2MwZjgwZTk0/N2NjMzY4ZTM0MTA4/MDUzMzdkZWFkZmQv/YS9zL2FzaTUzM21j/LXAtMS5qcGc"
   }
 ];
 
