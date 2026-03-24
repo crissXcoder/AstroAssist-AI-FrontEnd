@@ -4,34 +4,36 @@ import { SectionContainer } from "@/components/ui/section";
 import { Bot, ShieldCheck, Rocket, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { STAGGER_CONTAINER, FADE_IN_UP } from "@/lib/motion";
+import { useTranslations } from "@/components/i18n-provider";
 
 export function Benefits() {
+  const t = useTranslations().benefits;
   const features = [
     {
       icon: <Bot className="w-8 h-8 text-primary" />,
-      title: "Asistencia de IA 24/7",
-      description: "AstroAssist analiza tu ubicación y clima para recomendarte los mejores equipos en tiempo real."
+      title: t.items[0].title,
+      description: t.items[0].description
     },
     {
       icon: <ShieldCheck className="w-8 h-8 text-primary" />,
-      title: "Garantía Extendida",
-      description: "Protección de 5 años en todos los equipos ópticos y monturas ecuatoriales contra defectos."
+      title: t.items[1].title,
+      description: t.items[1].description
     },
     {
       icon: <Rocket className="w-8 h-8 text-primary" />,
-      title: "Envíos Asegurados",
-      description: "Logística especializada internacional. Tu telescopio llegará en perfectas condiciones a todo el mundo."
+      title: t.items[2].title,
+      description: t.items[2].description
     },
     {
       icon: <Zap className="w-8 h-8 text-primary" />,
-      title: "Calibración Óptica",
-      description: "Cada equipo es pre-colimado usando estrellas artificiales antes de despacharse del laboratorio."
+      title: t.items[3].title,
+      description: t.items[3].description
     }
   ];
 
   return (
     <SectionContainer delay={0.1} className="py-24 border-y border-border/40 relative">
-      <div className="absolute inset-0 bg-background/90" />
+      <div className="absolute inset-0 bg-background/40" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent opacity-50 pointer-events-none" />
       
       <div className="container px-4 md:px-6 mx-auto relative z-10">

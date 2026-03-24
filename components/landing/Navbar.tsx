@@ -5,11 +5,17 @@ import { motion, useScroll, AnimatePresence } from "framer-motion";
 import { Telescope, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { useTranslations, useLocale } from "@/components/i18n-provider";
 
 export function Navbar() {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  const t = useTranslations().navbar;
+  const locale = useLocale();
 
   useEffect(() => {
     return scrollY.on("change", (latest) => {
@@ -25,12 +31,12 @@ export function Navbar() {
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
           isScrolled 
-            ? "bg-background/60 backdrop-blur-2xl border-b border-white/5 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.5)]" 
+            ? "bg-background/80 dark:bg-background/60 backdrop-blur-2xl border-b border-border/50 dark:border-white/5 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.5)]" 
             : "bg-transparent py-6"
         }`}
       >
         <div className="container px-4 md:px-6 mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href={`/${locale}`} className="flex items-center gap-3 group">
             <div className="p-2 bg-primary/20 rounded-[10px] border border-primary/30 group-hover:bg-primary/40 transition-colors shadow-[0_0_15px_rgba(var(--primary),0.2)] group-hover:scale-105 duration-300">
               <Telescope className="w-5 h-5 text-primary" />
             </div>
@@ -38,29 +44,28 @@ export function Navbar() {
           </Link>
           
           <nav className="hidden md:flex items-center gap-8">
-            {['Catálogo', 'Galería', 'Comunidad', 'IA Asistente'].map((item) => (
-              <Link key={item} href="#" className="text-sm font-medium text-muted-foreground hover:text-white transition-colors tracking-wide relative group">
-                {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full" />
-              </Link>
-            ))}
+            <Link href={`/${locale}`} className="text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:text-foreground dark:hover:text-white transition-colors">{t.home}</Link>
+            <Link href={`/${locale}#features`} className="text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:text-foreground dark:hover:text-white transition-colors">{t.technology}</Link>
+            <Link href={`/${locale}/catalogo`} className="text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:text-foreground dark:hover:text-white transition-colors">{t.optics}</Link>
+            <Link href={`/${locale}#community`} className="text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:text-foreground dark:hover:text-white transition-colors">{t.community}</Link>
           </nav>
           
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" className="text-muted-foreground hover:text-white">Acceder</Button>
-            <Button variant={isScrolled ? "default" : "glass"} className="rounded-full px-6 shadow-[0_0_20px_rgba(var(--primary),0.2)]">
-              Probar AstroAssist
-            </Button>
+            <LanguageSwitcher />
+            <ThemeToggle />
           </div>
 
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="md:hidden" 
-            onClick={() => setMobileMenuOpen(true)}
-          >
-             <Menu className="w-6 h-6" />
-          </Button>
+          <div className="flex items-center gap-2 md:hidden">
+            <LanguageSwitcher />
+            <ThemeToggle />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setMobileMenuOpen(true)}
+            >
+               <Menu className="w-6 h-6" />
+            </Button>
+          </div>
         </div>
       </motion.header>
 
@@ -71,7 +76,7 @@ export function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-3xl flex flex-col p-6 border-l border-white/10"
+            className="fixed inset-0 z-60 bg-background/95 backdrop-blur-3xl flex flex-col p-6 border-l border-border/50 dark:border-white/10"
           >
             <div className="flex justify-between items-center mb-12">
                <span className="text-xl font-bold tracking-tight text-glow">AstroAssist AI</span>
@@ -81,14 +86,14 @@ export function Navbar() {
             </div>
             
             <nav className="flex flex-col gap-6 text-xl font-medium tracking-tight">
-              {['Catálogo', 'Galería', 'Comunidad', 'IA Asistente'].map((item, i) => (
+              {[t.optics, 'Galería', t.community, 'IA Asistente'].map((item, i) => (
                  <motion.div 
                    key={item}
                    initial={{ opacity: 0, x: 20 }}
                    animate={{ opacity: 1, x: 0 }}
                    transition={{ delay: i * 0.1 }}
                  >
-                   <Link href="#" className="hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{item}</Link>
+                   <Link href="#" className="p-2 -mr-2 text-foreground dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors" onClick={() => setMobileMenuOpen(false)}>{item}</Link>
                  </motion.div>
               ))}
             </nav>
