@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Bot, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
@@ -80,9 +81,11 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
         >
-          <Button size="lg" className="h-12 px-8 rounded-full bg-white text-black hover:bg-neutral-200 transition-colors w-full sm:w-auto text-sm font-medium">
-             Explorar catálogo
-          </Button>
+          <Link href="/catalogo">
+            <Button size="lg" className="h-12 px-8 rounded-full bg-white text-black hover:bg-neutral-200 transition-colors w-full sm:w-auto text-sm font-medium">
+               Explorar catálogo
+            </Button>
+          </Link>
           <Button size="lg" variant="ghost" className="h-12 px-8 rounded-full text-neutral-400 hover:text-white hover:bg-white/5 transition-colors w-full sm:w-auto text-sm font-medium border border-transparent hover:border-white/10">
             Conocer la IA
           </Button>

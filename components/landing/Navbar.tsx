@@ -38,7 +38,11 @@ export function Navbar() {
           </Link>
           
           <nav className="hidden md:flex items-center gap-8">
-            {['Catálogo', 'Galería', 'Comunidad', 'IA Asistente'].map((item) => (
+            <Link href="/catalogo" className="text-sm font-medium text-muted-foreground hover:text-white transition-colors tracking-wide relative group">
+              Catálogo
+              <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full" />
+            </Link>
+            {['Galería', 'Comunidad', 'IA Asistente'].map((item) => (
               <Link key={item} href="#" className="text-sm font-medium text-muted-foreground hover:text-white transition-colors tracking-wide relative group">
                 {item}
                 <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full" />
