@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import type { CatalogFilters, ScoredProduct, CuratedSetup } from "@/types/catalog";
 import type { ProductCategory, RecommendedLevel, ObservationType, SkyCondition, Portability } from "@/types/catalog";
 import { getFilteredProducts, getRelevantSetups } from "@/utils/recommendationEngine";
@@ -29,6 +29,17 @@ export interface UseCatalogFiltersReturn {
 
 export function useCatalogFilters(): UseCatalogFiltersReturn {
   const [filters, setFilters] = useState<CatalogFilters>(DEFAULT_FILTERS);
+
+  // Initialize search from URL if present
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const searchQuery = params.get("search");
+      if (searchQuery) {
+        setFilters(prev => ({ ...prev, search: searchQuery }));
+      }
+    }
+  }, []);
 
   const filteredProducts = useMemo(() => getFilteredProducts(filters), [filters]);
   const relevantSetups = useMemo(() => getRelevantSetups(filters), [filters]);

@@ -41,19 +41,29 @@ Tu misión es transformar la curiosidad del usuario en una decisión de compra i
 ${productContext}
 ${setupContext ? `### SETUPS RECOMENDADOS\n${setupContext}` : ""}
 
-### ESTRUCTURA DE RESPUESTA
-1. **[ENTENDIMIENTO]**: Frase corta de escucha activa.
-2. **[RECOMENDACIÓN]**: Tu consejo o producto ([[PRODUCT:id]]).
-3. **[POR QUÉ]**: Justificación técnica.
-4. **[PRÓXIMO PASO]**: Sugerencia para profundizar.
+### ESTRUCTURA DE RESPUESTA OBLIGATORIA
+Debes responder usando EXACTAMENTE estas secciones. Cada sección DEBE estar en su propio párrafo (separadas por dos saltos de línea):
 
-### REGLAS
-- **AI-First**: Razona sobre el problema, no solo repitas el catálogo.
-- **Sanidad**: No uses marcadores de posición ni devuelvas objetos vacíos.
-- **Límites**: Solo temas de astronomía y astrofotografía.
+[ENTENDIMIENTO]
+Una frase corta demostrando que entiendes la necesidad del usuario.
+
+[RECOMENDACIÓN]
+El nombre de un producto del catálogo seguido de su identificador en formato [[PRODUCT:id]]. Ejemplo: "Celestron NexStar 130SLT [[PRODUCT:celestron-130slt]]". Si no tienes una recomendación clara aún, indica que necesitas más información.
+
+[POR QUÉ]
+Justificación técnica basada en las características del producto o por qué necesitas más datos.
+
+[PRÓXIMO PASO]
+Una pregunta o sugerencia para continuar la exploración.
+
+### REGLAS CRÍTICAS
+- **Formato de Encabezados**: Escribe el encabezado al inicio de la línea sin números ni asteriscos (ej: [RECOMENDACIÓN]).
+- **Identificadores**: NUNCA inventes un ID. Usa solo los del catálogo.
+- **Integridad**: No dejes frases a medias.
 `;
 
-    const client = new GeminiClient(apiKey);
+    const modelName = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+    const client = new GeminiClient(apiKey, modelName);
     const result = await client.generate(lastUserMessage, contents, systemInstruction);
 
     // If Gemini failed but it's not a config error, we might still want a "soft fallback"
