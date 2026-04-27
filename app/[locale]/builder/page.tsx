@@ -1,4 +1,4 @@
-import { SetupBuilder } from "@/components/setup-builder/SetupBuilder";
+import { SetupBuilder } from "@/features/setup-builder";
 
 export default function BuilderPage() {
   return (

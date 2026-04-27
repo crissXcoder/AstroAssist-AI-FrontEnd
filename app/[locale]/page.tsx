@@ -1,10 +1,10 @@
-import { Hero } from "@/components/landing/Hero";
-import { FeaturedProducts } from "@/components/landing/FeaturedProducts";
-import { CosmicInsights } from "@/components/landing/CosmicInsights";
-import { Benefits } from "@/components/landing/Benefits";
-import { Gallery } from "@/components/landing/Gallery";
-import { Testimonials } from "@/components/landing/Testimonials";
-import { CtaSection } from "@/components/landing/CtaSection";
+import { Hero } from "@/features/landing/components/Hero";
+import { FeaturedProducts } from "@/features/landing/components/FeaturedProducts";
+import { CosmicInsights } from "@/features/landing/components/CosmicInsights";
+import { Benefits } from "@/features/landing/components/Benefits";
+import { Gallery } from "@/features/landing/components/Gallery";
+import { Testimonials } from "@/features/landing/components/Testimonials";
+import { CtaSection } from "@/features/landing/components/CtaSection";
 
 export default function Home() {
   return (
