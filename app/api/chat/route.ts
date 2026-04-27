@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { GeminiClient } from '@/utils/gemini-client';
-import { detectIntent, getProductContext, getSetupContext } from '@/utils/ai-logic';
+import { GeminiClient } from '@/features/chat/services/gemini-client';
+import { detectIntent, getProductContext, getSetupContext } from '@/features/chat/utils/ai-logic';
 
 export async function POST(req: Request) {
   try {

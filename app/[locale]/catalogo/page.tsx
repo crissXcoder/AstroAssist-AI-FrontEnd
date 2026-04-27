@@ -2,12 +2,12 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Telescope } from "lucide-react";
-import { QuickGuide } from "@/components/catalog/QuickGuide";
-import { SmartFilters } from "@/components/catalog/SmartFilters";
-import { ProductGrid } from "@/components/catalog/ProductGrid";
-import { SetupsSection } from "@/components/catalog/SetupsSection";
-import { useCatalogFilters } from "@/hooks/useCatalogFilters";
-import { useLocale } from "@/components/i18n-provider";
+import { QuickGuide } from "@/features/catalog/components/QuickGuide";
+import { SmartFilters } from "@/features/catalog/components/SmartFilters";
+import { ProductGrid } from "@/features/catalog/components/ProductGrid";
+import { SetupsSection } from "@/features/catalog/components/SetupsSection";
+import { useCatalogFilters } from "@/features/catalog/hooks/useCatalogFilters";
+import { useLocale } from "@/shared/providers/i18n-provider";
 
 export default function CatalogPage() {
   const locale = (useLocale() ?? "en") as "en" | "es";

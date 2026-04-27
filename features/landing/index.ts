@@ -1,0 +1,10 @@
+export { Navbar } from './components/Navbar';
+export { Footer } from './components/Footer';
+export { Hero } from './components/Hero';
+export { Benefits } from './components/Benefits';
+export { ChatbotSection } from './components/ChatbotSection';
+export { CosmicInsights } from './components/CosmicInsights';
+export { CtaSection } from './components/CtaSection';
+export { FeaturedProducts } from './components/FeaturedProducts';
+export { Gallery } from './components/Gallery';
+export { Testimonials } from './components/Testimonials';
