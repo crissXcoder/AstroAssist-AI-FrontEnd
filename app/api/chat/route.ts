@@ -5,12 +5,15 @@ import { detectIntent, getProductContext, getSetupContext } from '@/features/cha
 export async function POST(req: Request) {
   try {
     const apiKey = process.env.GEMINI_API_KEY;
+    const modelName = process.env.GEMINI_MODEL || "gemini-2.0-flash";
     
+    console.log("🚀 [API/Chat] Nueva petición recibida");
+
     if (!apiKey) {
-      console.error("❌ [API/Chat] Missing GEMINI_API_KEY");
+      console.error("❌ [API/Chat] GEMINI_API_KEY no configurada en el entorno.");
       return NextResponse.json({ 
         role: 'assistant', 
-        content: "Error: No se encontró la API Key en el servidor.",
+        content: "Error: No se encontró la API Key en el servidor. Asegúrate de que .env.local esté configurado correctamente.",
         status: 'error_auth'
       }, { status: 401 });
     }
@@ -19,10 +22,13 @@ export async function POST(req: Request) {
     const { messages } = body;
     
     if (!messages || messages.length === 0) {
+      console.warn("⚠️ [API/Chat] Petición sin mensajes");
       return NextResponse.json({ error: 'No messages provided' }, { status: 400 });
     }
 
     const lastUserMessage = messages[messages.length - 1].content;
+    console.log(`💬 [API/Chat] Mensaje del usuario: "${lastUserMessage.substring(0, 50)}..."`);
+
     const intent = detectIntent(lastUserMessage);
     const productContext = getProductContext(intent, lastUserMessage);
     const setupContext = getSetupContext(lastUserMessage);
@@ -35,57 +41,48 @@ export async function POST(req: Request) {
 
     const systemInstruction = `
 Eres AstroAssist, un Asistente Experto en Astronomía y Asesor de Compras Senior.
-Tu misión es transformar la curiosidad del usuario en una decisión de compra informada.
+Tu misión es transformar la curiosidad del usuario en una decisión de compra informada basada ÚNICAMENTE en los productos proporcionados en el CONTEXTO DEL CATÁLOGO.
 
 ### CONTEXTO DEL CATÁLOGO
 ${productContext}
 ${setupContext ? `### SETUPS RECOMENDADOS\n${setupContext}` : ""}
 
 ### ESTRUCTURA DE RESPUESTA OBLIGATORIA
-Debes responder usando EXACTAMENTE estas secciones. Cada sección DEBE estar en su propio párrafo (separadas por dos saltos de línea):
+Debes responder usando EXACTAMENTE estas secciones en este orden:
 
-[ENTENDIMIENTO]
-Una frase corta demostrando que entiendes la necesidad del usuario.
-
-[RECOMENDACIÓN]
-El nombre de un producto del catálogo seguido de su identificador en formato [[PRODUCT:id]]. Ejemplo: "Celestron NexStar 130SLT [[PRODUCT:celestron-130slt]]". Si no tienes una recomendación clara aún, indica que necesitas más información.
-
-[POR QUÉ]
-Justificación técnica basada en las características del producto o por qué necesitas más datos.
-
-[PRÓXIMO PASO]
-Una pregunta o sugerencia para continuar la exploración.
+1. **[ENTENDIMIENTO]**: Una frase corta demostrando que entiendes la necesidad del usuario.
+2. **[RECOMENDACIÓN]**: El nombre de un producto del catálogo seguido de su identificador en formato [[PRODUCT:id]]. Ejemplo: "Celestron NexStar 130SLT [[PRODUCT:celestron-130slt]]". Si no tienes una recomendación clara aún, indica que necesitas más información.
+3. **[POR QUÉ]**: Justificación técnica basada en las características del producto y las necesidades del usuario.
+4. **[PRÓXIMO PASO]**: Una pregunta o sugerencia para continuar la exploración.
 
 ### REGLAS CRÍTICAS
-- **Formato de Encabezados**: Escribe el encabezado al inicio de la línea sin números ni asteriscos (ej: [RECOMENDACIÓN]).
-- **Identificadores**: NUNCA inventes un ID. Usa solo los del catálogo.
-- **Integridad**: No dejes frases a medias.
+- **Identificadores**: NUNCA inventes un ID. Usa solo los del catálogo. Si no estás seguro, usa el producto más cercano disponible en el contexto.
+- **Fallback**: Si el usuario pregunta algo totalmente fuera de lugar (como comida o política), declina amablemente y redirige la conversación a la astronomía.
+- **Formato**: Mantén siempre los encabezados en negrita y corchetes (ej: **[ENTENDIMIENTO]**).
+- **Integridad**: No dejes frases a medias. Si recomiendas algo, asegúrate de mencionar el nombre completo.
 `;
-
-    const modelName = process.env.GEMINI_MODEL || "gemini-2.0-flash";
     const client = new GeminiClient(apiKey, modelName);
     const result = await client.generate(lastUserMessage, contents, systemInstruction);
 
-    // If Gemini failed but it's not a config error, we might still want a "soft fallback"
-    // However, the user wants TRUTHFUL states. So we fail fast if it's an auth/quota error.
     if (result.status !== 'online') {
-      console.warn(`⚠️ [API/Chat] Gemini returned status: ${result.status}`);
+      console.warn(`⚠️ [API/Chat] Gemini falló con estado: ${result.status}`);
       
       const statusCode = result.status === 'error_auth' ? 401 : result.status === 'error_quota' ? 429 : 503;
       
       return NextResponse.json({
         role: 'assistant',
-        content: result.errorDetail || "El servicio no está disponible.",
+        content: result.errorDetail || "El servicio no está disponible temporalmente.",
         status: result.status,
         isError: true
       }, { status: statusCode });
     }
 
-    // Basic sanitation
+    // Improved sanitation: only remove clear artifacts, not partial words
     const sanitizedResponse = result.content
       .replace(/\[object Object\]/g, "")
-      .replace(/undefined/g, "")
       .trim();
+
+    console.log("✅ [API/Chat] Respuesta generada exitosamente");
 
     return NextResponse.json({ 
       role: 'assistant', 
@@ -94,10 +91,10 @@ Una pregunta o sugerencia para continuar la exploración.
     });
 
   } catch (error: any) {
-    console.error("🌌 [API/Chat] Fatal Error:", error);
+    console.error("🌌 [API/Chat] Error Fatal:", error);
     return NextResponse.json({ 
       role: 'assistant', 
-      content: "Error inesperado en el servidor.",
+      content: "Error inesperado en el servidor de AstroAssist.",
       status: 'offline',
       isError: true
     }, { status: 500 });
