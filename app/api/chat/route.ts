@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { GeminiClient } from '@/utils/gemini-client';
-import { detectIntent, getProductContext, getSetupContext } from '@/utils/ai-logic';
+import { GeminiClient } from '@/features/chat/services/gemini-client';
+import { detectIntent, getProductContext, getSetupContext } from '@/features/chat/utils/ai-logic';
 
 export async function POST(req: Request) {
   try {
@@ -51,17 +51,16 @@ ${setupContext ? `### SETUPS RECOMENDADOS\n${setupContext}` : ""}
 Debes responder usando EXACTAMENTE estas secciones en este orden:
 
 1. **[ENTENDIMIENTO]**: Una frase corta demostrando que entiendes la necesidad del usuario.
-2. **[RECOMENDACIÓN]**: El nombre de un producto del catálogo seguido de su identificador en formato [[PRODUCT:id]]. Ejemplo: "Celestron NexStar 130SLT [[PRODUCT:celestron-130slt]]".
+2. **[RECOMENDACIÓN]**: El nombre de un producto del catálogo seguido de su identificador en formato [[PRODUCT:id]]. Ejemplo: "Celestron NexStar 130SLT [[PRODUCT:celestron-130slt]]". Si no tienes una recomendación clara aún, indica que necesitas más información.
 3. **[POR QUÉ]**: Justificación técnica basada en las características del producto y las necesidades del usuario.
 4. **[PRÓXIMO PASO]**: Una pregunta o sugerencia para continuar la exploración.
 
 ### REGLAS CRÍTICAS
-- **Identificadores**: NUNCA inventes un ID. Si no estás seguro, usa el producto más cercano disponible en el contexto.
+- **Identificadores**: NUNCA inventes un ID. Usa solo los del catálogo. Si no estás seguro, usa el producto más cercano disponible en el contexto.
 - **Fallback**: Si el usuario pregunta algo totalmente fuera de lugar (como comida o política), declina amablemente y redirige la conversación a la astronomía.
 - **Formato**: Mantén siempre los encabezados en negrita y corchetes (ej: **[ENTENDIMIENTO]**).
 - **Integridad**: No dejes frases a medias. Si recomiendas algo, asegúrate de mencionar el nombre completo.
 `;
-
     const client = new GeminiClient(apiKey, modelName);
     const result = await client.generate(lastUserMessage, contents, systemInstruction);
 

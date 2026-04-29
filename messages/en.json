@@ -36,6 +36,10 @@
     "status_stab": "Stabilized"
   },
   "benefits": {
+    "badge": "Pro Ecosystem",
+    "title_part1": "Advantages of the",
+    "title_part2": "AstroAssist Effect.",
+    "description": "Systems designed to maximize every second of astronomical exposure with cutting-edge technology.",
     "items": [
       {
         "title": "Intelligent Telemetry",
@@ -66,6 +70,46 @@
       "Setup guidance"
     ]
   },
+  "product_detail": {
+    "back": "Back to catalog",
+    "add_to_cart": "Add to cart",
+    "adding": "Adding...",
+    "added": "Added!",
+    "ai_assistant": "AI Assistant",
+    "ai_desc": "Technical query about this equipment.",
+    "secure_checkout": "Secure Checkout",
+    "secure_desc": "Military-grade encryption.",
+    "specs": "Specifications",
+    "advantages": "Key Advantages",
+    "use_cases": "Ideal Use Cases",
+    "related": "Related Products",
+    "recommended_level": "Recommended Level",
+    "observation_type": "Observation Type",
+    "sky_condition": "Sky Condition",
+    "sky": {
+      "city": "City",
+      "suburban": "Suburban",
+      "dark_sky": "Dark Sky"
+    },
+    "portability": "Portability",
+    "complexity": "Setup Complexity",
+    "ideal_use": "Ideal Use Cases",
+    "specifications": "Technical Specifications",
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "goals": {
+      "planetary": "Planetary Observation",
+      "deep_sky": "Deep Sky",
+      "astrophotography": "Astrophotography",
+      "general": "General Use"
+    },
+    "not_found_title": "Product Not Found",
+    "not_found_desc": "The equipment you are looking for seems to have gone out of orbit.",
+    "not_found_cta": "Explore Catalog"
+  },
   "featured": {
     "badge": "Selected Optics",
     "title_part1": "Curated",
@@ -74,7 +118,8 @@
   },
   "gallery": {
     "badge": "Optical Gallery",
-    "title": "The Universe through our optics.",
+    "title_part1": "The Universe",
+    "title_part2": "through our optics.",
     "description": "Astroculturists and observers in our community demonstrate what AstroAssist hardware is capable of.",
     "modal_verified": "Verified Capture",
     "modal_photo_by": "Photography by",
@@ -172,12 +217,12 @@
       {
         "title": "Supermassive Hole",
         "subtitle": "M87 Horizon",
-        "description": "A gravitational vortex equivalent to 6.5 billion suns devouring the spacetime fabric."
+        "description": "Un vórtice gravitacional equivalente a 6,500 millones de soles devorando el tejido espacio-tiempo."
       },
       {
         "title": "System Limit",
         "subtitle": "Oort Cloud",
-        "description": "A gigantic frozen sphere. The final abyss before the infinite extrasolar domain."
+        "description": "A gigantesca esfera helada. El abismo final antes del infinito dominio extrasolar."
       }
     ]
   },
@@ -286,5 +331,81 @@
       "ai_button": "Ask",
       "restart": "Reconfigure Setup"
     }
+  },
+  "cart": {
+    "title": "Your Arsenal",
+    "empty": "Your cart is currently empty. The void awaits.",
+    "subtotal": "Subtotal",
+    "shipping": "Secure Shipping",
+    "tax": "Estimated Tax",
+    "total": "Total",
+    "items_count": "You have {count} items in your configuration.",
+    "empty_desc": "You haven't added any equipment to your setup yet. Explore our AI-assisted catalog to find the perfect gear.",
+    "explore_catalog": "Explore Catalog",
+    "item_total": "Item Total",
+    "summary_title": "Order Summary",
+    "promo_suggestion": "Do you have an ambassador code? You can apply it in the next step.",
+    "checkout": "Proceed to Checkout",
+    "clear": "Clear Arsenal",
+    "clear_confirm": "Are you sure you want to clear your arsenal?",
+    "view_full_cart": "View Full Cart",
+    "free": "Free",
+    "back_to_catalog": "Browse Optics",
+    "remove": "Remove"
+  },
+  "checkout": {
+    "title": "Secure Checkout",
+    "subtitle": "Complete your order to receive your astronomical gear.",
+    "shipping": "Shipping Information",
+    "payment": "Payment Method",
+    "shipping_step": "Shipping",
+    "payment_step": "Payment",
+    "full_name": "Full Name",
+    "email": "Email Address",
+    "address": "Shipping Address",
+    "city": "City",
+    "zip_code": "ZIP Code",
+    "phone": "Phone Number",
+    "country": "Country",
+    "country_placeholder": "Select a country",
+    "notes": "Order Notes (optional)",
+    "shipping_method": "Shipping Method",
+    "standard_shipping": "Standard Shipping",
+    "standard_shipping_desc": "Delivery in 3-5 business days with tracking.",
+    "pickup_shipping": "Coordinated Pickup",
+    "pickup_shipping_desc": "Our team will contact you to coordinate the delivery.",
+    "qty": "Qty: {count}",
+    "card_number": "Card Number",
+    "expiry": "Expiry Date",
+    "cvc": "CVC",
+    "credit_card": "Credit Card",
+    "bank_transfer": "Bank Transfer",
+    "alt_payment": "PayPal / Crypto",
+    "back": "Back",
+    "secure_payment": "100% secure payment with military-grade SSL encryption.",
+    "specialized_shipping": "Specialized shipping with real-time tracking.",
+    "success": "Mission Accomplished!",
+    "success_desc": "Your order has been processed successfully. We've sent a confirmation email with the details of your astronomical expedition.",
+    "next_steps": "Next Steps",
+    "next_steps_desc": "Our team of experts is verifying the collimation and condition of your equipment to ensure a perfect experience.",
+    "tracking": "Tracking",
+    "tracking_desc": "You will receive a tracking link as soon as your package leaves our space logistics center.",
+    "back_home": "Back to Home",
+    "continue_shopping": "Continue Shopping",
+    "order_id": "Order #ASTRO-",
+    "back_to_cart": "Back to Cart",
+    "continue": "Continue",
+    "place_order": "Place Order",
+    "processing": "Processing...",
+    "order_received": "Order Received",
+    "summary_title": "Order Summary",
+    "customer_info": "Customer Information",
+    "shipping_address": "Shipping Address",
+    "payment_details": "Payment Details",
+    "products": "Products",
+    "no_order_found": "Order Not Found",
+    "no_order_desc": "We're sorry, we couldn't find the details for your astronomical expedition.",
+    "view_catalog": "View Catalog",
+    "order_summary": "Order Details"
   }
 }

@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { FloatingChat } from "@/components/chat/FloatingChat";
-import { Navbar } from "@/components/landing/Navbar";
-import { I18nProvider } from "@/components/i18n-provider";
+import { ThemeProvider } from "@/shared/providers/theme-provider";
+import { FloatingChat } from "@/features/chat";
+import { Navbar } from "@/features/landing/components/Navbar";
+import { CartDrawer } from "@/features/cart/components/CartDrawer";
+import { I18nProvider } from "@/shared/providers/i18n-provider";
+import { CartProvider } from "@/features/cart";
+import { Footer } from "@/features/landing/components/Footer";
 import { getDictionary, Locale } from "@/lib/i18n";
 
 const geistSans = Geist({
@@ -90,13 +93,17 @@ export default async function RootLayout({
           enableSystem={true}
         >
           {/* Global Cinematic Background System */}
-          <div className="fixed inset-0 z-[-1] pointer-events-none bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.08),transparent_80%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.06),transparent_80%)]" />
-          <div className="fixed inset-0 z-[-1] pointer-events-none bg-[radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.05),transparent_60%)] dark:bg-[radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.03),transparent_60%)]" />
+          <div className="fixed inset-0 z-[-1] pointer-events-none bg-[radial-gradient(ellipse_at_top,rgba(98,87,244,0.08),transparent_80%)]" />
+          <div className="fixed inset-0 z-[-1] pointer-events-none bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.04),transparent_60%)]" />
           
           <I18nProvider dictionary={dictionary} locale={locale as Locale}>
-            <Navbar />
-            {children}
-            <FloatingChat />
+            <CartProvider>
+              <Navbar />
+              <CartDrawer />
+              {children}
+              <Footer />
+              <FloatingChat />
+            </CartProvider>
           </I18nProvider>
         </ThemeProvider>
       </body>
