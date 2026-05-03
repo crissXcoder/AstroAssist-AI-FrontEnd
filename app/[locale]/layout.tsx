@@ -9,6 +9,8 @@ import { I18nProvider } from "@/shared/providers/i18n-provider";
 import { CartProvider } from "@/features/cart";
 import { Footer } from "@/features/landing/components/Footer";
 import { getDictionary, Locale } from "@/lib/i18n";
+import { AuthProvider } from "@/features/auth";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -97,13 +99,15 @@ export default async function RootLayout({
           <div className="fixed inset-0 z-[-1] pointer-events-none bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.04),transparent_60%)]" />
           
           <I18nProvider dictionary={dictionary} locale={locale as Locale}>
-            <CartProvider>
-              <Navbar />
-              <CartDrawer />
-              {children}
-              <Footer />
-              <FloatingChat />
-            </CartProvider>
+            <AuthProvider>
+              <CartProvider>
+                <Navbar />
+                <CartDrawer />
+                {children}
+                <Footer />
+                <FloatingChat />
+              </CartProvider>
+            </AuthProvider>
           </I18nProvider>
         </ThemeProvider>
       </body>
