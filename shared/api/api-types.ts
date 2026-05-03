@@ -27,10 +27,15 @@ export interface ApiErrorResponse {
 export interface AuthUser {
   id: string;
   email: string;
-  name?: string;
-  role: 'USER' | 'ADMIN';
+  fullName: string;
+  cedula: string;
+  role: 'CUSTOMER' | 'ADMIN';
+  isAdmin?: boolean;
   isEmailVerified: boolean;
   avatarUrl?: string;
+  district?: string;
+  canton?: string;
+  province?: string;
 }
 
 export interface Session {
@@ -49,8 +54,17 @@ export interface LoginResponse {
 
 export interface RegisterPayload {
   email: string;
-  password?: string; // Opcional si es OAuth, pero aquí asumimos local
-  name: string;
+  password?: string;
+  cedula: string;
+  fullName: string;
+  birthDate: string;
+  phone: string;
+  province: string;
+  canton: string;
+  district: string;
+  city: string;
+  exactAddress: string;
+  postalCode?: string;
 }
 
 export interface LoginPayload {

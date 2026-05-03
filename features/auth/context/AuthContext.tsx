@@ -13,6 +13,7 @@ import { AuthUser, LoginPayload, RegisterPayload } from '@/shared/api/api-types'
 import { AuthService } from '../services/auth.service';
 import { setupInterceptors } from '@/shared/api/interceptors';
 import { apiClient } from '@/shared/api/api-client';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export type AuthStatus = 'idle' | 'checking' | 'authenticated' | 'guest';
 
@@ -34,10 +35,9 @@ const AUTH_CHANNEL_NAME = 'astroassist_auth_channel';
 const PROTECTED_ROUTES = ['/dashboard', '/profile', '/settings', '/checkout', '/admin'];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [status, setStatus] = useState<AuthStatus>('idle');
   const router = useRouter();
   const pathname = usePathname();
+  const queryClient = useQueryClient();
 
   // ── Sincronización Cross-Tab ──────────────────────────────────────────
   const authChannel = useMemo(() => {
@@ -45,9 +45,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return new BroadcastChannel(AUTH_CHANNEL_NAME);
   }, []);
 
-  const logout = useCallback(async (options?: { localOnly?: boolean }) => {
-    if (status === 'guest') return;
+  // ── Sesión con TanStack Query ─────────────────────────────────────────
+  const { 
+    data: sessionResponse, 
+    status: queryStatus,
+    fetchStatus,
+    refetch 
+  } = useQuery({
+    queryKey: ['auth', 'session'],
+    queryFn: () => AuthService.getMe(),
+    retry: false,
+    staleTime: 1000 * 60 * 5, // 5 minutos de validez
+  });
 
+  const user = sessionResponse?.data || null;
+  
+  // Derivación de estado para compatibilidad
+  const status = useMemo((): AuthStatus => {
+    if (queryStatus === 'pending' && fetchStatus === 'fetching') return 'checking';
+    if (user) return 'authenticated';
+    return 'guest';
+  }, [queryStatus, fetchStatus, user]);
+
+  const logout = useCallback(async (options?: { localOnly?: boolean }) => {
     try {
       if (!options?.localOnly) {
         await AuthService.logout();
@@ -56,43 +76,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      setUser(null);
-      setStatus('guest');
+      queryClient.setQueryData(['auth', 'session'], null);
       
       const isProtected = PROTECTED_ROUTES.some(route => pathname.includes(route));
       if (isProtected) {
         router.push('/');
       }
     }
-  }, [authChannel, pathname, router, status]);
-
-  const refreshUser = useCallback(async () => {
-    setStatus('checking');
-    try {
-      const response = await AuthService.getMe();
-      setUser(response.data);
-      setStatus('authenticated');
-    } catch (error) {
-      setUser(null);
-      setStatus('guest');
-    }
-  }, []);
+  }, [authChannel, pathname, router, queryClient]);
 
   const login = async (payload: LoginPayload) => {
     const response = await AuthService.login(payload);
-    setUser(response.data);
-    setStatus('authenticated');
+    queryClient.setQueryData(['auth', 'session'], response);
     authChannel?.postMessage({ type: 'LOGIN' });
     router.push('/');
   };
 
   const register = async (payload: RegisterPayload) => {
     const response = await AuthService.register(payload);
-    setUser(response.data);
-    setStatus('authenticated');
+    queryClient.setQueryData(['auth', 'session'], response);
     authChannel?.postMessage({ type: 'LOGIN' });
     router.push('/');
   };
+
+  const refreshUser = useCallback(async () => {
+    await refetch();
+  }, [refetch]);
 
   // ── SSE: Eventos de Seguridad ─────────────────────────────────────────
   useEffect(() => {
@@ -126,14 +135,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // ── Inicialización ──────────────────────────────────────────────────
   useEffect(() => {
     setupInterceptors(apiClient, logout);
-    refreshUser();
 
     if (authChannel) {
       authChannel.onmessage = (event) => {
         if (event.data.type === 'LOGOUT') {
           logout({ localOnly: true });
         } else if (event.data.type === 'LOGIN') {
-          refreshUser();
+          refetch();
         }
       };
     }
@@ -141,19 +149,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => {
       authChannel?.close();
     };
-  }, [logout, refreshUser, authChannel]);
+  }, [logout, refetch, authChannel]);
 
   const value = useMemo(() => ({
     user,
     status,
     isAuthenticated: status === 'authenticated',
     isAdmin: user?.role === 'ADMIN',
-    isCustomer: user?.role === 'USER',
+    isCustomer: user?.role === 'CUSTOMER',
     login,
     register,
     logout,
     refreshUser,
-  }), [user, status, logout, refreshUser]);
+  }), [user, status, login, register, logout, refreshUser]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
