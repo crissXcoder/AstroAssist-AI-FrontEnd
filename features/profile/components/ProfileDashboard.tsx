@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 
 export const ProfileDashboard = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
 
   if (!user) return null;
 
@@ -58,11 +58,11 @@ export const ProfileDashboard = () => {
           <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
               <Label className="text-zinc-500 text-xs uppercase tracking-wider">Nombre Completo</Label>
-              <p className="text-white font-medium">{user.fullName || 'No especificado'}</p>
+              <p className="text-white font-medium">{user.profile.fullName || 'No especificado'}</p>
             </div>
             <div className="space-y-1">
               <Label className="text-zinc-500 text-xs uppercase tracking-wider">Cédula</Label>
-              <p className="text-white font-medium">{user.idNumber || 'No especificado'}</p>
+              <p className="text-white font-medium">{user.profile.cedula || 'No especificado'}</p>
             </div>
             <div className="space-y-1">
               <Label className="text-zinc-500 text-xs uppercase tracking-wider">Correo Electrónico</Label>
@@ -75,7 +75,7 @@ export const ProfileDashboard = () => {
               <Label className="text-zinc-500 text-xs uppercase tracking-wider">Rol de Sistema</Label>
               <div className="flex items-center gap-2 text-blue-400 font-medium">
                 <ShieldCheck className="w-4 h-4" />
-                {user.isAdmin ? 'Administrador' : 'Explorador'}
+                {isAdmin ? 'Administrador' : 'Explorador'}
               </div>
             </div>
           </CardContent>
@@ -91,10 +91,12 @@ export const ProfileDashboard = () => {
           <CardContent className="space-y-4">
             <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2">
               <p className="text-white text-sm">
-                {user.addressLine1 || 'Sin dirección registrada'}
+                {user.addresses[0]?.exactAddress || 'Sin dirección registrada'}
               </p>
               <div className="text-xs text-zinc-500">
-                {user.district}, {user.canton}, {user.province}
+                {user.addresses[0] 
+                  ? `${user.addresses[0].district}, ${user.addresses[0].canton}, ${user.addresses[0].province}`
+                  : 'Completa tu perfil para añadir una dirección'}
               </div>
             </div>
             <Button variant="link" className="text-blue-400 p-0 h-auto text-sm hover:text-blue-300">
