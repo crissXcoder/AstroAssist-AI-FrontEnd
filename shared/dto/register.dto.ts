@@ -1,30 +1,27 @@
-import { 
-  IsEmail, 
-  IsNotEmpty, 
-  MinLength, 
-  IsString, 
-  IsDateString, 
-  IsOptional, 
-  Matches 
+import {
+  IsEmail,
+  IsString,
+  MinLength,
+  IsDateString,
+  IsOptional,
+  Matches,
+  IsNotEmpty,
 } from 'class-validator';
 
 /**
- * DTO para el inicio de sesión
+ * DTO para el registro de cliente (Costa Rica focus)
+ * Unificado para Frontend y Backend.
  */
-export class LoginDto {
-  @IsEmail({}, { message: 'Debe ser un correo electrónico válido' })
+export class RegisterDto {
+  @IsEmail(undefined, { message: 'Debe ser un correo electrónico válido' })
   @IsNotEmpty({ message: 'El correo electrónico es obligatorio' })
   email!: string;
 
   @IsString()
-  @MinLength(6, { message: 'La contraseña debe tener al menos 6 caracteres' })
+  @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
+  @IsNotEmpty({ message: 'La contraseña es obligatoria' })
   password!: string;
-}
 
-/**
- * DTO para el registro de cliente (Costa Rica focus)
- */
-export class RegisterDto {
   @IsString()
   @IsNotEmpty({ message: 'La cédula es obligatoria' })
   @Matches(/^[0-9-]+$/, { message: 'Formato de cédula inválido' })
@@ -34,21 +31,13 @@ export class RegisterDto {
   @IsNotEmpty({ message: 'El nombre completo es obligatorio' })
   fullName!: string;
 
-  @IsDateString({}, { message: 'Fecha de nacimiento inválida' })
+  @IsDateString(undefined, { message: 'Fecha de nacimiento inválida' })
   @IsNotEmpty({ message: 'La fecha de nacimiento es obligatoria' })
   birthDate!: string;
 
   @IsString()
   @IsNotEmpty({ message: 'El teléfono es obligatorio' })
   phone!: string;
-
-  @IsEmail({}, { message: 'Debe ser un correo electrónico válido' })
-  @IsNotEmpty({ message: 'El correo es obligatorio' })
-  email!: string;
-
-  @IsString()
-  @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
-  password!: string;
 
   @IsString()
   @IsNotEmpty({ message: 'La provincia es obligatoria' })
@@ -63,8 +52,8 @@ export class RegisterDto {
   district!: string;
 
   @IsString()
-  @IsNotEmpty({ message: 'La localidad es obligatoria' })
-  city!: string;
+  @IsNotEmpty({ message: 'La localidad/ciudad es obligatoria' })
+  town!: string;
 
   @IsString()
   @IsNotEmpty({ message: 'La dirección exacta es obligatoria' })
@@ -73,4 +62,8 @@ export class RegisterDto {
   @IsString()
   @IsOptional()
   postalCode?: string;
+
+  @IsString()
+  @IsNotEmpty({ message: 'Confirmar la contraseña es obligatorio' })
+  confirmPassword!: string;
 }

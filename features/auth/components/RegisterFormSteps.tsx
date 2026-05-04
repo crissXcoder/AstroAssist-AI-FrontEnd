@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { RegisterDto } from '../schemas/auth.schema';
+import { RegisterDto } from '@shared/dto/register.dto';
 import { useGeo } from '@/features/auth/hooks/useGeo';
 import { Input } from '@/shared/components/ui/input';
 import { Button } from '@/shared/components/ui/button';
@@ -51,23 +51,27 @@ export const RegisterFormSteps: React.FC<RegisterFormStepsProps> = ({
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
     trigger,
     formState: { errors },
+    control,
   } = useForm<RegisterDto>({
     resolver: classValidatorResolver(RegisterDto),
   });
 
-  const selectedProvince = watch('province');
-  const selectedCanton = watch('canton');
+  const selectedProvince = useWatch({ control, name: 'province' });
+  const selectedCanton = useWatch({ control, name: 'canton' });
+  const districtWatch = useWatch({ control, name: 'district' });
+  const fullNameWatch = useWatch({ control, name: 'fullName' });
+  const cedulaWatch = useWatch({ control, name: 'cedula' });
+  const emailWatch = useWatch({ control, name: 'email' });
 
   const nextStep = async () => {
     type FieldName = keyof RegisterDto;
     let fieldsToValidate: FieldName[] = [];
     if (step === 1) fieldsToValidate = ['cedula', 'fullName', 'birthDate'];
     if (step === 2) fieldsToValidate = ['email', 'phone'];
-    if (step === 3) fieldsToValidate = ['province', 'canton', 'district', 'city', 'exactAddress'];
+    if (step === 3) fieldsToValidate = ['province', 'canton', 'district', 'town', 'exactAddress'];
 
     const isValid = await trigger(fieldsToValidate);
     if (isValid) setStep((s) => s + 1);
@@ -191,7 +195,7 @@ export const RegisterFormSteps: React.FC<RegisterFormStepsProps> = ({
               <Label className="text-zinc-300">Distrito</Label>
               <Combobox
                 options={districts.map((d) => ({ label: d.name, value: d.id }))}
-                value={watch('district')}
+                value={districtWatch}
                 onChange={(val) => setValue('district', val)}
                 disabled={!selectedCanton || loadingDistricts}
                 placeholder="Distrito"
@@ -199,9 +203,9 @@ export const RegisterFormSteps: React.FC<RegisterFormStepsProps> = ({
               {errors.district && <p className="text-xs text-red-400">{errors.district.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="city" className="text-zinc-300">Localidad</Label>
-              <Input id="city" placeholder="San José Centro" className="bg-white/5 border-white/10 text-white" {...register('city')} />
-              {errors.city && <p className="text-xs text-red-400">{errors.city.message}</p>}
+              <Label htmlFor="town" className="text-zinc-300">Localidad</Label>
+              <Input id="town" placeholder="San José Centro" className="bg-white/5 border-white/10 text-white" {...register('town')} />
+              {errors.town && <p className="text-xs text-red-400">{errors.town.message}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="exactAddress" className="text-zinc-300">Dirección Exacta</Label>
@@ -227,9 +231,9 @@ export const RegisterFormSteps: React.FC<RegisterFormStepsProps> = ({
                 <CheckCircle2 className="w-4 h-4" /> Resumen de Cuenta
               </h4>
               <div className="text-xs text-zinc-400 space-y-1">
-                <p>Nombre: {watch('fullName')}</p>
-                <p>Cédula: {watch('cedula')}</p>
-                <p>Correo: {watch('email')}</p>
+                <p>Nombre: {fullNameWatch}</p>
+                <p>Cédula: {cedulaWatch}</p>
+                <p>Correo: {emailWatch}</p>
               </div>
             </div>
           </div>

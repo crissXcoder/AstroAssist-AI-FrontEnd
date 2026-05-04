@@ -1,3 +1,6 @@
+import { RegisterDto } from '@shared/dto/register.dto';
+import { LoginDto } from '@shared/dto/login.dto';
+
 /**
  * Estructura estándar de respuesta del servidor.
  */
@@ -21,21 +24,39 @@ export interface ApiErrorResponse {
   path: string;
 }
 
+export interface AuthProfile {
+  cedula: string;
+  fullName: string;
+  birthDate: string;
+  phone: string;
+}
+
+export interface AuthAddress {
+  id: string;
+  province: string;
+  canton: string;
+  district: string;
+  town: string;
+  exactAddress: string;
+  postalCode?: string;
+  country: string;
+  isDefault: boolean;
+}
+
 /**
  * Tipos de Auth
  */
 export interface AuthUser {
   id: string;
   email: string;
-  fullName: string;
-  cedula: string;
   role: 'CUSTOMER' | 'ADMIN';
-  isAdmin?: boolean;
-  isEmailVerified: boolean;
-  avatarUrl?: string;
-  district?: string;
-  canton?: string;
-  province?: string;
+  isActive: boolean;
+  emailVerified: boolean;
+  lastLoginAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  profile: AuthProfile;
+  addresses: AuthAddress[];
 }
 
 export interface Session {
@@ -52,22 +73,6 @@ export interface LoginResponse {
   // Tokens se manejan via cookies httpOnly, pero el backend podría retornar info básica
 }
 
-export interface RegisterPayload {
-  email: string;
-  password?: string;
-  cedula: string;
-  fullName: string;
-  birthDate: string;
-  phone: string;
-  province: string;
-  canton: string;
-  district: string;
-  city: string;
-  exactAddress: string;
-  postalCode?: string;
-}
+export type RegisterPayload = RegisterDto;
 
-export interface LoginPayload {
-  email: string;
-  password?: string;
-}
+export type LoginPayload = LoginDto;

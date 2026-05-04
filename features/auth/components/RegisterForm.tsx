@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { RegisterDto } from '@/features/auth/schemas/auth.schema';
+import { RegisterDto } from '@shared/dto/register.dto';
 import { useAuth } from '@/features/auth';
 import {
   Card,
@@ -31,8 +31,8 @@ export const RegisterForm = () => {
     try {
       await registerAction(data);
       setIsSuccess(true);
-    } catch (err: any) {
-      setServerError(err.message || 'Error al crear la cuenta. Intente de nuevo.');
+    } catch (err: unknown) {
+      setServerError(err instanceof Error ? err.message : 'Error al crear la cuenta. Intente de nuevo.');
     } finally {
       setIsSubmitting(false);
     }

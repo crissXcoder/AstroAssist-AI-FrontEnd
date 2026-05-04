@@ -7,23 +7,31 @@ import { useTranslations, useLocale } from "@/shared/providers/i18n-provider";
 import { getRecommendedForCart, getAllProducts } from "@/features/catalog/services/recommendationEngine";
 import { useEffect, useState } from "react";
 import { Sparkles } from "lucide-react";
+import { useMemo } from "react";
 import { useCart } from "../hooks/useCart";
 
 export function CartRecommendations() {
   const t = useTranslations();
   const locale = useLocale();
   const { items } = useCart();
-  const [recommendations, setRecommendations] = useState<Product[]>([]);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsHydrated(true);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Derived state: Map cart items to full products and get recommendations
+  const recommendations = useMemo(() => {
     // Map cart items to full products
     const allProducts = getAllProducts();
     const cartProducts = items
       .map(item => allProducts.find(p => p.id === item.productId))
       .filter((p): p is Product => p !== undefined);
 
-    const results = getRecommendedForCart(cartProducts, 4);
-    setRecommendations(results);
+    return getRecommendedForCart(cartProducts, 4);
   }, [items]);
 
   if (recommendations.length === 0) return null;
